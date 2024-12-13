@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1c2c9496-3799-45c3-888c-fa36572d1b89/deploy-status)](https://app.netlify.com/sites/maternity-calculator/deploys)
+
 # maternity-leave-calculator-slovenia
 
 ## Project setup
