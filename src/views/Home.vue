@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <Card>
+    <SimpleCard>
       <template #title> Welcome to My App </template>
       <template #content>
         <p>This is the main page of our application.</p>
       </template>
-    </Card>
+    </SimpleCard>
   </div>
 </template>
 

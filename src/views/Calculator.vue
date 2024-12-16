@@ -1,52 +1,52 @@
 <template>
   <div class="calculator">
-    <Card>
+    <SimpleCard>
       <template #title>
         <div class="flex align-items-center justify-content-between">
           Calculator
-          <Button icon="pi pi-refresh" @click="clearAll" />
+          <SimpleButton icon="pi pi-refresh" @click="clearAll" />
         </div>
       </template>
       <template #content>
         <div class="calculator-grid">
           <InputText v-model="display" readonly class="col-12 mb-3" />
           <div class="grid">
-            <Button
+            <SimpleButton
               v-for="n in ['7', '8', '9', '+']"
               :key="n"
               @click="appendValue(n)"
               class="col-3 p-button-outlined"
             >
               {{ n }}
-            </Button>
-            <Button
+            </SimpleButton>
+            <SimpleButton
               v-for="n in ['4', '5', '6', '-']"
               :key="n"
               @click="appendValue(n)"
               class="col-3 p-button-outlined"
             >
               {{ n }}
-            </Button>
-            <Button
+            </SimpleButton>
+            <SimpleButton
               v-for="n in ['1', '2', '3', '*']"
               :key="n"
               @click="appendValue(n)"
               class="col-3 p-button-outlined"
             >
               {{ n }}
-            </Button>
-            <Button
+            </SimpleButton>
+            <SimpleButton
               v-for="n in ['0', '.', '=', '/']"
               :key="n"
               @click="n === '=' ? calculate() : appendValue(n)"
               class="col-3 p-button-outlined"
             >
               {{ n }}
-            </Button>
+            </SimpleButton>
           </div>
         </div>
       </template>
-    </Card>
+    </SimpleCard>
   </div>
 </template>
 
