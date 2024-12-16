@@ -1,9 +1,9 @@
 <template>
-  <Menubar :model="items" class="navbar">
+  <MenuBar :model="items" class="navbar">
     <template #start>
-      <h1 class="title">My App</h1>
+      <h1 class="title">Maternity calculator</h1>
     </template>
-  </Menubar>
+  </MenuBar>
 </template>
 
 <script>
