@@ -3,9 +3,7 @@
     <template #start>
       <span class="navbar-brand">
         {{ $t("appName") }}
-        <PrimeTag severity="info" class="dev-tag">
-          {{ $t("inDevelopment") }}
-        </PrimeTag>
+        <PrimeTag severity="info" class="dev-tag">{{$t("inDevelopment")}}</PrimeTag>
       </span>
     </template>
     <template #end>

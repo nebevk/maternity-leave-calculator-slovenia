@@ -31,12 +31,7 @@
         <!-- Multiple children, twins, special needs -->
         <div class="field">
           <label>{{ $t("calculator.childrenCount") }}</label>
-          <PrimeInputNumber
-            v-model="childrenCount"
-            :min="1"
-            :max="10"
-            class="mb-3"
-          />
+          <PrimeInputNumber v-model="childrenCount" :min="1" :max="10" class="mb-3" />
         </div>
         <div class="field flex align-items-center mb-2">
           <PrimeCheckbox v-model="isTwins" :binary="true" inputId="twins" />
@@ -200,7 +195,7 @@ export default {
         paternityLeave,
         motherParental,
         fatherParental,
-        extensions: extensions.join(", "),
+        extensions: extensions.join(", ")
       };
     },
   },

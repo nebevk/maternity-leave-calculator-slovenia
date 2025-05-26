@@ -12,8 +12,7 @@
             v-model="edd"
             dateFormat="dd/mm/yy"
             :showIcon="true"
-            :placeholder="$t('calculator.selectEDD')"
-            class="mb-3"
+            placeholder="{{$t('calculator.selectEDD')}}"
           />
         </div>
         <!-- Actual Birth Date (optional) -->
@@ -23,72 +22,66 @@
             v-model="birthDate"
             dateFormat="dd/mm/yy"
             :showIcon="true"
-            :placeholder="$t('calculator.selectBirthDate')"
-            class="mb-3"
+            placeholder="{{$t('calculator.selectBirthDate')}}"
           />
         </div>
         <PrimeDivider />
         <!-- Multiple children, twins, special needs -->
         <div class="field">
           <label>{{ $t("calculator.childrenCount") }}</label>
-          <PrimeInputNumber
-            v-model="childrenCount"
-            :min="1"
-            :max="10"
-            class="mb-3"
-          />
+          <PrimeInputNumber v-model="childrenCount" :min="1" :max="10" />
         </div>
-        <div class="field flex align-items-center mb-2">
+        <div class="field">
           <PrimeCheckbox v-model="isTwins" :binary="true" inputId="twins" />
           <label for="twins" class="ml-2">{{ $t("calculator.twins") }}</label>
         </div>
-        <div class="field flex align-items-center mb-3">
+        <div class="field">
           <PrimeCheckbox
             v-model="specialNeeds"
             :binary="true"
             inputId="specialNeeds"
           />
-          <label for="specialNeeds" class="ml-2">
-            {{ $t("calculator.specialNeeds") }}
-          </label>
+          <label for="specialNeeds" class="ml-2">{{
+            $t("calculator.specialNeeds")
+          }}</label>
         </div>
         <PrimeDivider />
         <!-- Parental leave allocation -->
         <div class="field">
-          <PrimeTag severity="info" class="mb-2">
-            {{ $t("calculator.parentalInfo") }}
-          </PrimeTag>
-          <div class="p-inputgroup mb-2">
-            <span class="p-inputgroup-addon">
-              {{ $t("calculator.motherParental") }}
-            </span>
+          <PrimeTag severity="info" class="mb-2">{{
+            $t("calculator.parentalInfo")
+          }}</PrimeTag>
+          <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">{{
+              $t("calculator.motherParental")
+            }}</span>
             <PrimeInputNumber v-model="motherParental" :min="60" :max="260" />
             <span class="p-inputgroup-addon">{{ $t("calculator.days") }}</span>
           </div>
-          <div class="p-inputgroup">
-            <span class="p-inputgroup-addon">
-              {{ $t("calculator.fatherParental") }}
-            </span>
+          <div class="p-inputgroup mt-2">
+            <span class="p-inputgroup-addon">{{
+              $t("calculator.fatherParental")
+            }}</span>
             <PrimeInputNumber v-model="fatherParental" :min="60" :max="260" />
             <span class="p-inputgroup-addon">{{ $t("calculator.days") }}</span>
           </div>
         </div>
         <PrimeDivider />
         <PrimeButton
-          :label="$t('calculator.calculate')"
+          label="{{$t('calculator.calculate')}}"
           @click="calculateLeave"
-          class="p-button-primary mb-3"
+          class="p-button-primary"
         />
         <PrimeDivider />
         <PrimePanel
           v-if="results"
-          :header="$t('calculator.results')"
+          header="{{$t('calculator.results')}}"
           class="mt-4"
         >
           <div class="results">
-            <PrimeTag severity="info" class="mb-2">
-              {{ $t("calculator.maternityInfo") }}
-            </PrimeTag>
+            <PrimeTag severity="info" class="mb-2">{{
+              $t("calculator.maternityInfo")
+            }}</PrimeTag>
             <p>
               <strong>{{ $t("calculator.maternityStart") }}:</strong>
               {{ results.maternityStart }}
@@ -97,16 +90,16 @@
               <strong>{{ $t("calculator.maternityEnd") }}:</strong>
               {{ results.maternityEnd }}
             </p>
-            <PrimeTag severity="info" class="mb-2">
-              {{ $t("calculator.paternityInfo") }}
-            </PrimeTag>
+            <PrimeTag severity="info" class="mb-2">{{
+              $t("calculator.paternityInfo")
+            }}</PrimeTag>
             <p>
               <strong>{{ $t("calculator.paternityDuration") }}:</strong>
               {{ results.paternityLeave }} {{ $t("calculator.days") }}
             </p>
-            <PrimeTag severity="info" class="mb-2">
-              {{ $t("calculator.parentalInfo") }}
-            </PrimeTag>
+            <PrimeTag severity="info" class="mb-2">{{
+              $t("calculator.parentalInfo")
+            }}</PrimeTag>
             <p>
               <strong>{{ $t("calculator.motherParental") }}:</strong>
               {{ motherParental }} {{ $t("calculator.days") }}
@@ -240,13 +233,5 @@ export default {
   background-color: var(--surface-ground);
   color: var(--text-color-secondary);
   font-size: 0.875rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.75rem;
-}
-
-.mb-3 {
-  margin-bottom: 1.5rem;
 }
 </style>

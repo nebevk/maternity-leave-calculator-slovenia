@@ -1,12 +1,7 @@
 <template>
   <AppMenubar :model="[]" class="navbar">
     <template #start>
-      <span class="navbar-brand">
-        {{ $t("appName") }}
-        <PrimeTag severity="info" class="dev-tag">
-          {{ $t("inDevelopment") }}
-        </PrimeTag>
-      </span>
+      <span class="navbar-brand">{{ $t("appName") }}</span>
     </template>
     <template #end>
       <div class="navbar-actions">
@@ -22,11 +17,10 @@
 
 <script>
 import Menubar from "primevue/menubar";
-import Tag from "primevue/tag";
 
 export default {
   name: "AppNavbar",
-  components: { Menubar, PrimeTag: Tag },
+  components: { Menubar },
   computed: {
     items() {
       return [
@@ -51,7 +45,7 @@ export default {
   border-bottom: 1px solid #eee;
   font-family: "Nunito", sans-serif;
   font-size: 1.1rem;
-  background: #ffffff;
+  background: #f5ffee;
   padding: 1rem 2rem;
   margin: 1rem;
 }
@@ -61,14 +55,6 @@ export default {
   font-size: 1.3rem;
   letter-spacing: 1px;
   margin-right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.dev-tag {
-  margin-left: 0.5rem;
-  font-size: 0.9rem;
 }
 
 .navbar-actions {
