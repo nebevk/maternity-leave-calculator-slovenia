@@ -45,7 +45,7 @@ app.component("PrimeDatePicker", DatePicker);
 app.component("PrimeMessage", Message);
 app.component("PrimePanel", Panel);
 app.component("PrimeDivider", Divider);
-app.component("AppMenubar", Menubar);
+app.component("Menubar", Menubar);
 app.component("PrimeToast", Toast);
 
 app.mount("#app");

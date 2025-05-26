@@ -2,7 +2,6 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
 import router from "./router";
-import i18n from "./i18n";
 
 // Import PrimeVue components
 import Card from "primevue/card";
@@ -19,21 +18,14 @@ import ToastService from "primevue/toastservice";
 
 // Import styles
 import "primeicons/primeicons.css";
-import Aura from "@primeuix/themes/aura";
+import "@primevue/themes/aura/theme.css";
 
 const app = createApp(App);
 
 app.use(PrimeVue, {
   ripple: true,
-  theme: {
-    preset: Aura,
-    options: {
-      darkModeSelector: ".dark",
-    },
-  },
 });
 app.use(router);
-app.use(i18n);
 app.use(ToastService);
 
 // Register PrimeVue components
@@ -45,7 +37,7 @@ app.component("PrimeDatePicker", DatePicker);
 app.component("PrimeMessage", Message);
 app.component("PrimePanel", Panel);
 app.component("PrimeDivider", Divider);
-app.component("AppMenubar", Menubar);
+app.component("PrimeMenuBar", Menubar);
 app.component("PrimeToast", Toast);
 
 app.mount("#app");

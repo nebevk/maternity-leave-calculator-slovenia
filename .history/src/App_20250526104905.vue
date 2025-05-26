@@ -1,22 +1,18 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div id="app">
-    <AppNavbar />
     <PrimeToast />
-    <router-view />
-    <AppFooter />
+    <MaternityLeaveCalculator />
   </div>
 </template>
 
 <script>
-import AppNavbar from "./components/Navbar.vue";
-import AppFooter from "./components/Footer.vue";
+import MaternityLeaveCalculator from "./components/MaternityLeaveCalculator.vue";
 
 export default {
   name: "App",
   components: {
-    AppNavbar,
-    AppFooter,
+    MaternityLeaveCalculator,
   },
 };
 </script>
@@ -31,6 +27,7 @@ body,
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
   margin: 0;
+  padding: 1rem;
   min-height: 100vh;
   background-color: var(--surface-ground);
 }

@@ -39,7 +39,7 @@ export default {
   font-size: 1.1rem;
   background: #fff;
   padding: 1rem 2rem;
-  margin: 1rem;
+  margin: 2rem;
 }
 
 .navbar-brand {

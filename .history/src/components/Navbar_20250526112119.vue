@@ -1,5 +1,5 @@
 <template>
-  <AppMenubar :model="items" class="navbar">
+  <Menubar :model="items" class="navbar">
     <template #start>
       <span class="navbar-brand">{{ $t("appName") }}</span>
     </template>
@@ -9,7 +9,7 @@
         <option value="en">English</option>
       </select>
     </template>
-  </AppMenubar>
+  </Menubar>
 </template>
 
 <script>
@@ -38,8 +38,7 @@ export default {
   font-family: "Nunito", sans-serif;
   font-size: 1.1rem;
   background: #fff;
-  padding: 1rem 2rem;
-  margin: 1rem;
+  padding: 0 2rem;
 }
 
 .navbar-brand {

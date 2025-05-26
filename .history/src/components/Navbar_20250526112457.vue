@@ -38,8 +38,8 @@ export default {
   font-family: "Nunito", sans-serif;
   font-size: 1.1rem;
   background: #fff;
-  padding: 1rem 2rem;
-  margin: 1rem;
+  padding: 2rem 2rem;
+  margin: 2rem;
 }
 
 .navbar-brand {

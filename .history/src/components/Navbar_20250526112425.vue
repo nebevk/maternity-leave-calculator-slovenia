@@ -34,12 +34,13 @@ export default {
 
 <style scoped>
 .navbar {
+  max-width: 1200px;
+  margin: 0 auto;
   border-bottom: 1px solid #eee;
   font-family: "Nunito", sans-serif;
   font-size: 1.1rem;
   background: #fff;
-  padding: 1rem 2rem;
-  margin: 1rem;
+  padding: 0 2rem;
 }
 
 .navbar-brand {

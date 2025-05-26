@@ -31,6 +31,7 @@ body,
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
   margin: 0;
+  padding: 1rem;
   min-height: 100vh;
   background-color: var(--surface-ground);
 }

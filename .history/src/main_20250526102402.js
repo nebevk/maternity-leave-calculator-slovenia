@@ -2,14 +2,13 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
 import router from "./router";
-import i18n from "./i18n";
 
 // Import PrimeVue components
 import Card from "primevue/card";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
-import DatePicker from "primevue/datepicker";
+import Calendar from "primevue/calendar";
 import Message from "primevue/message";
 import Panel from "primevue/panel";
 import Divider from "primevue/divider";
@@ -33,7 +32,6 @@ app.use(PrimeVue, {
   },
 });
 app.use(router);
-app.use(i18n);
 app.use(ToastService);
 
 // Register PrimeVue components
@@ -41,11 +39,11 @@ app.component("PrimeCard", Card);
 app.component("PrimeButton", Button);
 app.component("PrimeInputText", InputText);
 app.component("PrimeInputNumber", InputNumber);
-app.component("PrimeDatePicker", DatePicker);
+app.component("PrimeCalendar", Calendar);
 app.component("PrimeMessage", Message);
 app.component("PrimePanel", Panel);
 app.component("PrimeDivider", Divider);
-app.component("AppMenubar", Menubar);
+app.component("PrimeMenuBar", Menubar);
 app.component("PrimeToast", Toast);
 
 app.mount("#app");
