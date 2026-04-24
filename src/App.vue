@@ -1,9 +1,10 @@
-<!-- eslint-disable prettier/prettier -->
 <template>
   <div id="app">
     <AppNavbar />
     <PrimeToast />
-    <router-view />
+    <main class="app-main">
+      <router-view />
+    </main>
     <AppFooter />
   </div>
 </template>
@@ -24,14 +25,22 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
-body,
+body {
+  margin: 0;
+  background-color: var(--surface-ground);
+}
+
 #app {
   font-family: "Nunito", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--text-color);
-  margin: 0;
   min-height: 100vh;
-  background-color: var(--surface-ground);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1 0 auto;
 }
 </style>

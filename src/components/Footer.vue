@@ -1,10 +1,17 @@
 <template>
-  <footer class="footer">&copy; 2025 By Nejc Bevk</footer>
+  <footer class="footer">
+    {{ $t("footer", { year }) }}
+  </footer>
 </template>
 
 <script>
 export default {
   name: "AppFooter",
+  computed: {
+    year() {
+      return new Date().getFullYear();
+    },
+  },
 };
 </script>
 

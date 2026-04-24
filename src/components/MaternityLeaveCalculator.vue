@@ -5,22 +5,22 @@
     </template>
     <template #content>
       <div class="p-fluid">
-        <!-- Expected Due Date -->
         <div class="field">
           <label for="edd">{{ $t("calculator.edd") }}</label>
           <PrimeDatePicker
             v-model="edd"
+            inputId="edd"
             dateFormat="dd/mm/yy"
             :showIcon="true"
             :placeholder="$t('calculator.selectEDD')"
             class="mb-3"
           />
         </div>
-        <!-- Actual Birth Date (optional) -->
         <div class="field">
           <label for="birthDate">{{ $t("calculator.birthDate") }}</label>
           <PrimeDatePicker
             v-model="birthDate"
+            inputId="birthDate"
             dateFormat="dd/mm/yy"
             :showIcon="true"
             :placeholder="$t('calculator.selectBirthDate')"
@@ -28,19 +28,29 @@
           />
         </div>
         <PrimeDivider />
-        <!-- Multiple children, twins, special needs -->
         <div class="field">
-          <label>{{ $t("calculator.childrenCount") }}</label>
+          <label for="newbornsCount">
+            {{ $t("calculator.newbornsCount") }}
+          </label>
           <PrimeInputNumber
-            v-model="childrenCount"
+            v-model="newbornsCount"
+            inputId="newbornsCount"
             :min="1"
             :max="10"
             class="mb-3"
           />
         </div>
-        <div class="field flex align-items-center mb-2">
-          <PrimeCheckbox v-model="isTwins" :binary="true" inputId="twins" />
-          <label for="twins" class="ml-2">{{ $t("calculator.twins") }}</label>
+        <div class="field">
+          <label for="existingKidsUnder8">
+            {{ $t("calculator.existingKidsUnder8") }}
+          </label>
+          <PrimeInputNumber
+            v-model="existingKidsUnder8"
+            inputId="existingKidsUnder8"
+            :min="0"
+            :max="10"
+            class="mb-3"
+          />
         </div>
         <div class="field flex align-items-center mb-3">
           <PrimeCheckbox
@@ -53,7 +63,6 @@
           </label>
         </div>
         <PrimeDivider />
-        <!-- Parental leave allocation -->
         <div class="field">
           <PrimeTag severity="info" class="mb-2">
             {{ $t("calculator.parentalInfo") }}
@@ -62,14 +71,24 @@
             <span class="p-inputgroup-addon">
               {{ $t("calculator.motherParental") }}
             </span>
-            <PrimeInputNumber v-model="motherParental" :min="60" :max="260" />
+            <PrimeInputNumber
+              v-model="motherParental"
+              inputId="motherParental"
+              :min="60"
+              :max="260"
+            />
             <span class="p-inputgroup-addon">{{ $t("calculator.days") }}</span>
           </div>
           <div class="p-inputgroup">
             <span class="p-inputgroup-addon">
               {{ $t("calculator.fatherParental") }}
             </span>
-            <PrimeInputNumber v-model="fatherParental" :min="60" :max="260" />
+            <PrimeInputNumber
+              v-model="fatherParental"
+              inputId="fatherParental"
+              :min="60"
+              :max="260"
+            />
             <span class="p-inputgroup-addon">{{ $t("calculator.days") }}</span>
           </div>
         </div>
@@ -104,9 +123,6 @@
               <strong>{{ $t("calculator.paternityDuration") }}:</strong>
               {{ results.paternityLeave }} {{ $t("calculator.days") }}
             </p>
-            <PrimeTag severity="info" class="mb-2">
-              {{ $t("calculator.parentalInfo") }}
-            </PrimeTag>
             <p>
               <strong>{{ $t("calculator.motherParental") }}:</strong>
               {{ motherParental }} {{ $t("calculator.days") }}
@@ -127,18 +143,22 @@
 </template>
 
 <script>
-import PrimeCheckbox from "primevue/checkbox";
-import PrimeTag from "primevue/tag";
+const MATERNITY_DAYS = 105;
+const MATERNITY_LEAD_DAYS = 28;
+const PATERNITY_BASE_DAYS = 15;
+const PATERNITY_PER_EXTRA_NEWBORN = 10;
+const PARENTAL_TOTAL = 320;
+const PARENTAL_PER_PARENT_CAP = 260;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 export default {
   name: "MaternityLeaveCalculator",
-  components: { PrimeCheckbox, PrimeTag },
   data() {
     return {
       edd: null,
       birthDate: null,
-      childrenCount: 1,
-      isTwins: false,
+      newbornsCount: 1,
+      existingKidsUnder8: 0,
       specialNeeds: false,
       motherParental: 160,
       fatherParental: 160,
@@ -146,61 +166,90 @@ export default {
     };
   },
   methods: {
+    showError(detailKey) {
+      this.$toast.add({
+        severity: "error",
+        summary: this.$t("calculator.errorTitle"),
+        detail: this.$t(detailKey),
+        life: 4000,
+      });
+    },
+    addDays(date, days) {
+      const next = new Date(date);
+      next.setDate(next.getDate() + days);
+      return next;
+    },
     calculateLeave() {
       if (!this.edd) {
-        this.$toast.add({
-          severity: "error",
-          summary: "Error",
-          detail: this.$t("calculator.selectEDD"),
-          life: 3000,
-        });
+        this.showError("calculator.errorEDD");
         return;
       }
-      // Maternity leave logic
-      let maternityStart = new Date(this.edd);
-      maternityStart.setDate(maternityStart.getDate() - 28);
-      let maternityEnd;
-      if (this.birthDate && new Date(this.birthDate) < maternityStart) {
-        maternityStart = new Date(this.birthDate);
-        maternityEnd = new Date(maternityStart);
-        maternityEnd.setDate(maternityStart.getDate() + 105);
-      } else {
-        maternityEnd = new Date(maternityStart);
-        maternityEnd.setDate(maternityStart.getDate() + 105);
+      const total = this.motherParental + this.fatherParental;
+      if (total !== PARENTAL_TOTAL) {
+        this.showError("calculator.errorParentalTotal");
+        return;
       }
-      // Paternity leave logic
-      let paternityLeave = 15;
-      if (this.isTwins) paternityLeave += 10;
-      if (this.childrenCount > 1)
-        paternityLeave += (this.childrenCount - 1) * 10;
-      // Parental leave allocation
-      let motherParental = this.motherParental;
-      let fatherParental = this.fatherParental;
-      // Extensions
-      let extensions = [];
-      if (this.specialNeeds)
+      if (
+        this.motherParental > PARENTAL_PER_PARENT_CAP ||
+        this.fatherParental > PARENTAL_PER_PARENT_CAP
+      ) {
+        this.showError("calculator.errorParentalCap");
+        return;
+      }
+
+      const edd = new Date(this.edd);
+      const plannedStart = this.addDays(edd, -MATERNITY_LEAD_DAYS);
+      const birth = this.birthDate ? new Date(this.birthDate) : null;
+
+      let maternityStart = plannedStart;
+      if (birth && birth < plannedStart) {
+        maternityStart = birth;
+      }
+      const maternityEnd = this.addDays(maternityStart, MATERNITY_DAYS);
+
+      const isMultiple = this.newbornsCount > 1;
+      const extraNewborns = Math.max(0, this.newbornsCount - 1);
+      const paternityLeave =
+        PATERNITY_BASE_DAYS + extraNewborns * PATERNITY_PER_EXTRA_NEWBORN;
+
+      const totalKidsUnder8 = this.existingKidsUnder8 + this.newbornsCount;
+      const extensions = [];
+      if (this.specialNeeds) {
         extensions.push(this.$t("calculator.extSpecialNeeds"));
-      if (this.isTwins) extensions.push(this.$t("calculator.extTwins"));
-      if (this.childrenCount === 2)
+      }
+      if (isMultiple) {
+        extensions.push(this.$t("calculator.extMultiples"));
+      }
+      if (birth && birth < edd) {
+        const daysEarly = Math.round((edd - birth) / MS_PER_DAY);
+        if (daysEarly > 0) {
+          extensions.push(
+            this.$t("calculator.extPremature", { days: daysEarly })
+          );
+        }
+      }
+      if (totalKidsUnder8 === 2) {
         extensions.push(this.$t("calculator.ext2kids"));
-      if (this.childrenCount === 3)
+      } else if (totalKidsUnder8 === 3) {
         extensions.push(this.$t("calculator.ext3kids"));
-      if (this.childrenCount >= 4)
+      } else if (totalKidsUnder8 >= 4) {
         extensions.push(this.$t("calculator.ext4kids"));
-      // Format dates
+      }
+
       const format = (d) =>
         d.toLocaleDateString(this.$i18n.locale, {
           year: "numeric",
           month: "long",
           day: "numeric",
         });
+
       this.results = {
         maternityStart: format(maternityStart),
         maternityEnd: format(maternityEnd),
         paternityLeave,
-        motherParental,
-        fatherParental,
-        extensions: extensions.join(", "),
+        extensions: extensions.length
+          ? extensions.join(", ")
+          : this.$t("calculator.extNone"),
       };
     },
   },
@@ -225,15 +274,6 @@ export default {
 
 .results {
   padding: 1rem;
-}
-
-.results ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.results li {
-  margin: 0.5rem 0;
 }
 
 .p-inputgroup-addon {

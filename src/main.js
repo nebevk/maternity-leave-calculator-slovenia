@@ -13,13 +13,15 @@ import DatePicker from "primevue/datepicker";
 import Message from "primevue/message";
 import Panel from "primevue/panel";
 import Divider from "primevue/divider";
-import Menubar from "primevue/menubar";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
+import Checkbox from "primevue/checkbox";
+import Tag from "primevue/tag";
+import Select from "primevue/select";
 
 // Import styles
 import "primeicons/primeicons.css";
-import Aura from "@primeuix/themes/aura";
+import Aura from "@primevue/themes/aura";
 
 const app = createApp(App);
 
@@ -27,9 +29,6 @@ app.use(PrimeVue, {
   ripple: true,
   theme: {
     preset: Aura,
-    options: {
-      darkModeSelector: ".dark",
-    },
   },
 });
 app.use(router);
@@ -45,7 +44,9 @@ app.component("PrimeDatePicker", DatePicker);
 app.component("PrimeMessage", Message);
 app.component("PrimePanel", Panel);
 app.component("PrimeDivider", Divider);
-app.component("AppMenubar", Menubar);
 app.component("PrimeToast", Toast);
+app.component("PrimeCheckbox", Checkbox);
+app.component("PrimeTag", Tag);
+app.component("PrimeSelect", Select);
 
 app.mount("#app");
