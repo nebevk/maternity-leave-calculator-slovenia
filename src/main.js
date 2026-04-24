@@ -18,6 +18,10 @@ import ToastService from "primevue/toastservice";
 import Checkbox from "primevue/checkbox";
 import Tag from "primevue/tag";
 import Select from "primevue/select";
+import Fieldset from "primevue/fieldset";
+import IftaLabel from "primevue/iftalabel";
+import Timeline from "primevue/timeline";
+import Slider from "primevue/slider";
 
 // Import styles
 import "primeicons/primeicons.css";
@@ -29,6 +33,9 @@ app.use(PrimeVue, {
   ripple: true,
   theme: {
     preset: Aura,
+    options: {
+      darkModeSelector: false,
+    },
   },
 });
 app.use(router);
@@ -48,5 +55,9 @@ app.component("PrimeToast", Toast);
 app.component("PrimeCheckbox", Checkbox);
 app.component("PrimeTag", Tag);
 app.component("PrimeSelect", Select);
+app.component("PrimeFieldset", Fieldset);
+app.component("PrimeIftaLabel", IftaLabel);
+app.component("PrimeTimeline", Timeline);
+app.component("PrimeSlider", Slider);
 
 app.mount("#app");

@@ -25,16 +25,21 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
-body {
-  margin: 0;
-  background-color: var(--surface-ground);
+:root {
+  --p-font-family: "Nunito", sans-serif;
 }
 
-#app {
+html,
+body {
+  margin: 0;
   font-family: "Nunito", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--text-color);
+  color: var(--p-text-color);
+  background-color: var(--p-surface-ground);
+}
+
+#app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
