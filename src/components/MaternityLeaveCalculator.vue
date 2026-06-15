@@ -5,6 +5,15 @@
     </template>
 
     <template #content>
+      <PrimeMessage
+        severity="warn"
+        :closable="false"
+        icon="pi pi-info-circle"
+        class="calc-disclaimer"
+      >
+        {{ $t("calculator.disclaimer") }}
+      </PrimeMessage>
+
       <PrimeFieldset
         :legend="$t('calculator.sectionDates')"
         class="calc-section"
@@ -31,6 +40,8 @@
               showIcon
               fluid
               appendTo="body"
+              :minDate="birthMinDate"
+              :maxDate="birthMaxDate"
               :placeholder="$t('calculator.selectBirthDate')"
             />
             <label for="birthDate">{{ $t("calculator.birthDate") }}</label>
@@ -135,7 +146,7 @@
             size="small"
             :label="$t('calculator.parentalReset')"
             icon="pi pi-refresh"
-            @click="motherParental = 160"
+            @click="resetParental"
           />
         </div>
       </PrimeFieldset>
@@ -150,6 +161,7 @@
 
       <PrimePanel
         v-if="results"
+        ref="results"
         :header="$t('calculator.results')"
         class="calc-results"
       >
@@ -161,11 +173,11 @@
             </h4>
             <p class="result-row">
               <span>{{ $t("calculator.maternityStart") }}</span>
-              <strong>{{ results.maternityStart }}</strong>
+              <strong>{{ fmtDate(results.maternityStart) }}</strong>
             </p>
             <p class="result-row">
               <span>{{ $t("calculator.maternityEnd") }}</span>
-              <strong>{{ results.maternityEnd }}</strong>
+              <strong>{{ fmtDate(results.maternityEnd) }}</strong>
             </p>
             <p class="result-meta">{{ $t("calculator.maternityInfo") }}</p>
           </div>
@@ -192,14 +204,28 @@
             <p class="result-row">
               <span>{{ $t("calculator.motherParental") }}</span>
               <strong>
-                {{ motherParental }} {{ $t("calculator.days") }}
+                {{ results.motherParental }} {{ $t("calculator.days") }}
               </strong>
             </p>
             <p class="result-row">
               <span>{{ $t("calculator.fatherParental") }}</span>
               <strong>
-                {{ fatherParental }} {{ $t("calculator.days") }}
+                {{ results.fatherParental }} {{ $t("calculator.days") }}
               </strong>
+            </p>
+            <p v-if="results.extensionDays" class="result-row">
+              <span>{{ $t("calculator.parentalCombined") }}</span>
+              <strong>
+                {{ results.parentalCombinedTotal }} {{ $t("calculator.days") }}
+              </strong>
+            </p>
+            <p v-if="results.extensionDays" class="result-meta">
+              {{
+                $t("calculator.parentalCombinedInfo", {
+                  base: results.parentalBaseTotal,
+                  ext: results.extensionDays,
+                })
+              }}
             </p>
           </div>
 
@@ -209,9 +235,14 @@
               {{ $t("calculator.extensions") }}
             </h4>
             <ul v-if="results.extensions.length" class="result-list">
-              <li v-for="(ext, i) in results.extensions" :key="i">{{ ext }}</li>
+              <li v-for="(ext, i) in results.extensions" :key="i">
+                {{ $t(ext.key, ext.params) }}
+              </li>
             </ul>
             <p v-else class="result-meta">{{ $t("calculator.extNone") }}</p>
+            <p v-if="results.extensionDays" class="result-meta">
+              {{ $t("calculator.extTotal", { days: results.extensionDays }) }}
+            </p>
           </div>
         </div>
 
@@ -226,11 +257,16 @@
               class="timeline-marker"
               :class="`timeline-marker--${slotProps.item.parent}`"
             >
-              <i :class="slotProps.item.icon" />
+              <i :class="slotProps.item.icon" aria-hidden="true" />
+              <span class="sr-only">
+                {{ $t(`calculator.markers.${slotProps.item.parent}`) }}
+              </span>
             </span>
           </template>
           <template #opposite="slotProps">
-            <small class="timeline-date">{{ slotProps.item.dateLabel }}</small>
+            <small class="timeline-date">
+              {{ fmtDate(slotProps.item.date) }}
+            </small>
           </template>
           <template #content="slotProps">
             <div class="timeline-content">
@@ -252,14 +288,16 @@
 </template>
 
 <script>
-const MATERNITY_DAYS = 105;
-const MATERNITY_LEAD_DAYS = 28;
-const PATERNITY_BASE_DAYS = 15;
-const PATERNITY_PER_EXTRA_NEWBORN = 10;
-const PARENTAL_TOTAL = 320;
-const PARENTAL_PER_PARENT_CAP = 260;
-const PARENTAL_PER_PARENT_MIN = PARENTAL_TOTAL - PARENTAL_PER_PARENT_CAP;
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
+import {
+  calculateLeave as computeLeave,
+  addDays,
+  MS_PER_DAY,
+  MATERNITY_LEAD_DAYS,
+  PARENTAL_TOTAL,
+  PARENTAL_PER_PARENT_CAP,
+  PARENTAL_PER_PARENT_MIN,
+  PARENTAL_DEFAULT,
+} from "../lib/leaveCalculator";
 
 export default {
   name: "MaternityLeaveCalculator",
@@ -270,19 +308,49 @@ export default {
       newbornsCount: 1,
       existingKidsUnder8: 0,
       specialNeeds: false,
-      motherParental: 160,
+      motherParental: PARENTAL_DEFAULT,
       results: null,
       PARENTAL_TOTAL,
       PARENTAL_PER_PARENT_CAP,
       PARENTAL_PER_PARENT_MIN,
+      PARENTAL_DEFAULT,
     };
   },
   computed: {
     fatherParental() {
       return PARENTAL_TOTAL - this.motherParental;
     },
+    birthMinDate() {
+      // Allow markedly premature births (up to ~10 weeks before the EDD).
+      return this.edd ? addDays(new Date(this.edd), -70) : null;
+    },
+    birthMaxDate() {
+      // A birth more than 4 weeks after the EDD is implausible.
+      return this.edd ? addDays(new Date(this.edd), MATERNITY_LEAD_DAYS) : null;
+    },
+  },
+  watch: {
+    edd() {
+      // Drop a previously chosen birth date that no longer fits the new EDD.
+      if (!this.birthDate) return;
+      const birth = new Date(this.birthDate);
+      if (
+        (this.birthMinDate && birth < this.birthMinDate) ||
+        (this.birthMaxDate && birth > this.birthMaxDate)
+      ) {
+        this.birthDate = null;
+      }
+    },
   },
   methods: {
+    fmtDate(date) {
+      if (!date) return "";
+      return new Date(date).toLocaleDateString(this.$i18n.locale, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
     showError(detailKey) {
       this.$toast.add({
         severity: "error",
@@ -291,126 +359,38 @@ export default {
         life: 4000,
       });
     },
-    addDays(date, days) {
-      const next = new Date(date);
-      next.setDate(next.getDate() + days);
-      return next;
+    resetParental() {
+      this.motherParental = PARENTAL_DEFAULT;
     },
     calculateLeave() {
       if (!this.edd) {
         this.showError("calculator.errorEDD");
         return;
       }
-
-      const edd = new Date(this.edd);
-      const plannedStart = this.addDays(edd, -MATERNITY_LEAD_DAYS);
-      const birth = this.birthDate ? new Date(this.birthDate) : null;
-
-      let maternityStart = plannedStart;
-      if (birth && birth < plannedStart) {
-        maternityStart = birth;
-      }
-      const maternityEnd = this.addDays(maternityStart, MATERNITY_DAYS);
-
-      const isMultiple = this.newbornsCount > 1;
-      const extraNewborns = Math.max(0, this.newbornsCount - 1);
-      const paternityLeave =
-        PATERNITY_BASE_DAYS + extraNewborns * PATERNITY_PER_EXTRA_NEWBORN;
-
-      const totalKidsUnder8 = this.existingKidsUnder8 + this.newbornsCount;
-      const extensions = [];
-      if (this.specialNeeds) {
-        extensions.push(this.$t("calculator.extSpecialNeeds"));
-      }
-      if (isMultiple) {
-        extensions.push(this.$t("calculator.extMultiples"));
-      }
-      if (birth && birth < edd) {
-        const daysEarly = Math.round((edd - birth) / MS_PER_DAY);
-        if (daysEarly > 0) {
-          extensions.push(
-            this.$t("calculator.extPremature", { days: daysEarly })
-          );
+      if (this.birthDate) {
+        const daysAfterEdd =
+          (new Date(this.birthDate) - new Date(this.edd)) / MS_PER_DAY;
+        if (daysAfterEdd > MATERNITY_LEAD_DAYS) {
+          this.showError("calculator.errorBirthAfterEDD");
+          return;
         }
       }
-      if (totalKidsUnder8 === 2) {
-        extensions.push(this.$t("calculator.ext2kids"));
-      } else if (totalKidsUnder8 === 3) {
-        extensions.push(this.$t("calculator.ext3kids"));
-      } else if (totalKidsUnder8 >= 4) {
-        extensions.push(this.$t("calculator.ext4kids"));
-      }
 
-      const format = (d) =>
-        d.toLocaleDateString(this.$i18n.locale, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
+      this.results = computeLeave({
+        edd: this.edd,
+        birthDate: this.birthDate,
+        newbornsCount: this.newbornsCount,
+        existingKidsUnder8: this.existingKidsUnder8,
+        specialNeeds: this.specialNeeds,
+        motherParental: this.motherParental,
+      });
+
+      this.$nextTick(() => {
+        this.$refs.results?.$el?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
-
-      const motherParentalEnd = this.addDays(maternityEnd, this.motherParental);
-      const paternityAnchor = birth ?? maternityStart;
-      const paternityEnd = this.addDays(paternityAnchor, paternityLeave);
-      const fatherParentalEnd = this.addDays(maternityEnd, this.fatherParental);
-
-      const timeline = [
-        {
-          date: maternityStart,
-          parent: "mother",
-          icon: "pi pi-calendar-plus",
-          titleKey: "calculator.tlMaternityStart",
-        },
-        ...(birth
-          ? [
-              {
-                date: birth,
-                parent: "birth",
-                icon: "pi pi-heart-fill",
-                titleKey: "calculator.tlBirth",
-              },
-            ]
-          : []),
-        {
-          date: paternityEnd,
-          parent: "father",
-          icon: "pi pi-user",
-          titleKey: "calculator.tlPaternityEnd",
-          subtitleKey: "calculator.tlPaternityWindow",
-          subtitleParams: { days: paternityLeave },
-        },
-        {
-          date: maternityEnd,
-          parent: "mother",
-          icon: "pi pi-calendar-minus",
-          titleKey: "calculator.tlMaternityEnd",
-        },
-        {
-          date: motherParentalEnd,
-          parent: "mother",
-          icon: "pi pi-flag",
-          titleKey: "calculator.tlMotherParentalEnd",
-          subtitleKey: "calculator.tlParentalSpan",
-          subtitleParams: { days: this.motherParental },
-        },
-        {
-          date: fatherParentalEnd,
-          parent: "father",
-          icon: "pi pi-flag",
-          titleKey: "calculator.tlFatherParentalEnd",
-          subtitleKey: "calculator.tlParentalSpan",
-          subtitleParams: { days: this.fatherParental },
-        },
-      ]
-        .sort((a, b) => a.date - b.date)
-        .map((e) => ({ ...e, dateLabel: format(e.date) }));
-
-      this.results = {
-        maternityStart: format(maternityStart),
-        maternityEnd: format(maternityEnd),
-        paternityLeave,
-        extensions,
-        timeline,
-      };
+      });
     },
   },
 };
@@ -426,6 +406,22 @@ export default {
   margin: 0;
   font-weight: 800;
   letter-spacing: 0.3px;
+}
+
+.calc-disclaimer {
+  margin-bottom: 1.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .calc-section {

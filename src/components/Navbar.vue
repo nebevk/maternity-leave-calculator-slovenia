@@ -2,7 +2,7 @@
   <header class="navbar">
     <span class="navbar-brand">
       {{ $t("appName") }}
-      <PrimeTag severity="info" class="dev-tag">
+      <PrimeTag v-if="isDev" severity="info" class="dev-tag">
         {{ $t("inDevelopment") }}
       </PrimeTag>
     </span>
@@ -25,6 +25,7 @@
         optionLabel="label"
         optionValue="value"
         class="lang-switcher"
+        :aria-label="$t('a11y.languageSelector')"
       />
     </nav>
   </header>
@@ -44,6 +45,9 @@ export default {
     };
   },
   computed: {
+    isDev() {
+      return process.env.NODE_ENV !== "production";
+    },
     locale: {
       get() {
         return this.$i18n.locale;
@@ -93,5 +97,29 @@ export default {
 
 .lang-switcher {
   min-width: 10rem;
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .lang-switcher {
+    min-width: 8rem;
+  }
 }
 </style>

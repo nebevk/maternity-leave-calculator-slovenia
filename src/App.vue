@@ -19,6 +19,16 @@ export default {
     AppNavbar,
     AppFooter,
   },
+  watch: {
+    "$i18n.locale": {
+      immediate: true,
+      handler(locale) {
+        if (typeof document !== "undefined") {
+          document.documentElement.lang = locale;
+        }
+      },
+    },
+  },
 };
 </script>
 

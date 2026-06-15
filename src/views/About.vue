@@ -1,22 +1,15 @@
 <template>
   <div class="about">
-    <h2>About</h2>
-    <p>
-      This page will provide sources and explanations for the maternity leave
-      calculations used in this application.
-    </p>
-    <h3>Sources</h3>
+    <h2>{{ $t("about.title") }}</h2>
+    <p>{{ $t("about.aboutText") }}</p>
+    <h3>{{ $t("about.sources") }}</h3>
     <ul>
-      <li>Official Slovenian government resources on parental leave</li>
-      <li>Relevant labor law documents</li>
-      <li>Other reputable sources</li>
+      <li v-for="(src, i) in $tm('about.sourcesList')" :key="i">
+        {{ $rt(src) }}
+      </li>
     </ul>
-    <h3>Calculation Explanation</h3>
-    <p>
-      The calculator uses the latest Slovenian regulations to estimate the
-      duration and breakdown of maternity, paternity, and mixed parental leave.
-      Please consult official resources for the most up-to-date information.
-    </p>
+    <h3>{{ $t("about.explanation") }}</h3>
+    <p>{{ $t("about.explanationText") }}</p>
   </div>
 </template>
 
