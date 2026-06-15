@@ -1,0 +1,16 @@
+# Netlify build configuration.
+# Pins the Node version (the AI agent runner and Netlify default to Node 18 otherwise)
+# and adds the SPA fallback so deep links like /about don't 404 on refresh.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Single-page-app routing: serve index.html for any path that isn't a real file.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
