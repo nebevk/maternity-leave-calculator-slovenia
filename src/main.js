@@ -15,6 +15,7 @@ import ToastService from "primevue/toastservice";
 import Checkbox from "primevue/checkbox";
 import Select from "primevue/select";
 import Menu from "primevue/menu";
+import Popover from "primevue/popover";
 import Timeline from "primevue/timeline";
 import Slider from "primevue/slider";
 
@@ -64,6 +65,7 @@ app.component("PrimeToast", Toast);
 app.component("PrimeCheckbox", Checkbox);
 app.component("PrimeSelect", Select);
 app.component("PrimeMenu", Menu);
+app.component("PrimePopover", Popover);
 app.component("PrimeTimeline", Timeline);
 app.component("PrimeSlider", Slider);
 

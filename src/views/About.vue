@@ -13,27 +13,34 @@
 
     <h3>{{ $t("about.support") }}</h3>
     <p>{{ $t("about.supportText") }}</p>
-    <KofiButton class="about-kofi" />
-    <p class="about-personal">
-      {{ $t("about.personalPageText") }}
-      <a
-        href="https://nejcbevk.netlify.app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        nejcbevk.netlify.app
-      </a>
-    </p>
+    <div class="about-actions">
+      <KofiButton />
+      <PrimeButton
+        class="personal-button"
+        icon="pi pi-external-link"
+        :label="$t('about.personalPageButton')"
+        @click="openPersonal"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import KofiButton from "../components/KofiButton.vue";
 
+const PERSONAL_URL = "https://nejcbevk.netlify.app";
+
 export default {
   name: "AboutPage",
   components: {
     KofiButton,
+  },
+  methods: {
+    openPersonal() {
+      if (typeof window !== "undefined") {
+        window.open(PERSONAL_URL, "_blank", "noopener");
+      }
+    },
   },
 };
 </script>
@@ -59,15 +66,19 @@ export default {
 .about ul {
   margin-left: 1.5rem;
 }
-.about-kofi {
-  justify-content: flex-start;
-  margin: 1rem 0;
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
-.about-personal {
-  color: var(--p-text-muted-color);
+.personal-button {
+  background: #1e40af !important;
+  border-color: #1e40af !important;
 }
-.about-personal a {
-  color: var(--p-primary-color);
-  font-weight: 600;
+.personal-button:hover {
+  background: #1e3a8a !important;
+  border-color: #1e3a8a !important;
 }
 </style>

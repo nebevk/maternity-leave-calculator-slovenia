@@ -12,6 +12,7 @@ const messages = {
         a11y: {
             languageSelector: "Select language",
             toggleSidebar: "Toggle navigation",
+            menu: "Open menu",
         },
         footer: "© {year} By Nejc Bevk",
         calculator: {
@@ -90,7 +91,7 @@ const messages = {
             support: "Support this project",
             supportText:
                 "This calculator is free and ad-free. If it saved you time, you can buy me a coffee.",
-            personalPageText: "You can also check out my personal page:",
+            personalPageButton: "Visit my personal page",
         },
     },
     sl: {
@@ -103,6 +104,7 @@ const messages = {
         a11y: {
             languageSelector: "Izberite jezik",
             toggleSidebar: "Preklopi navigacijo",
+            menu: "Odpri meni",
         },
         footer: "© {year} Nejc Bevk",
         calculator: {
@@ -181,7 +183,7 @@ const messages = {
             support: "Podprite projekt",
             supportText:
                 "Ta kalkulator je brezplačen in brez oglasov. Če ti je prihranil čas, mi lahko privoščiš kavo.",
-            personalPageText: "Lahko si ogledaš tudi mojo osebno stran:",
+            personalPageButton: "Obišči mojo osebno stran",
         },
     },
 };
