@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Calculator from "../views/Calculator.vue";
-import About from "../views/About.vue";
-import Privacy from "../views/Privacy.vue";
 
 const routes = [
   {
@@ -10,14 +8,15 @@ const routes = [
     component: Calculator,
   },
   {
+    // Secondary pages are lazy-loaded so they stay out of the initial bundle.
     path: "/about",
     name: "About",
-    component: About,
+    component: () => import("../views/About.vue"),
   },
   {
     path: "/privacy",
     name: "Privacy",
-    component: Privacy,
+    component: () => import("../views/Privacy.vue"),
   },
 ];
 

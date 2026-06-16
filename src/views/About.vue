@@ -22,6 +22,10 @@
         @click="openPersonal"
       />
     </div>
+
+    <p class="about-privacy">
+      <router-link to="/privacy">{{ $t("menu.privacy") }}</router-link>
+    </p>
   </div>
 </template>
 
@@ -80,5 +84,12 @@ export default {
 .personal-button:hover {
   background: #1e3a8a !important;
   border-color: #1e3a8a !important;
+}
+.about-privacy {
+  margin-top: 1.5rem;
+}
+.about-privacy a {
+  color: var(--p-primary-color);
+  font-weight: 600;
 }
 </style>
