@@ -36,7 +36,15 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+/* Self-hosted Nunito (variable font) so no request goes to Google Fonts. */
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/font/Nunito/Nunito-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --p-font-family: "Nunito", sans-serif;

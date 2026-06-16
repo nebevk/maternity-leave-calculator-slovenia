@@ -8,6 +8,7 @@ const messages = {
         menu: {
             calculator: "Calculator",
             about: "About",
+            privacy: "Privacy",
         },
         a11y: {
             languageSelector: "Select language",
@@ -93,6 +94,21 @@ const messages = {
                 "This calculator is free and ad-free. If it saved you time, you can buy me a coffee.",
             personalPageButton: "Visit my personal page",
         },
+        privacy: {
+            title: "Privacy",
+            intro: "This page explains how this site handles your data. In short: it does not collect personal data about you.",
+            dataTitle: "No personal data",
+            dataText: "The calculator runs entirely in your browser. The dates and details you enter are used only to show your results, and are never sent to a server or stored.",
+            storageTitle: "Local storage",
+            storageText: "Your chosen language and a few interface preferences are saved locally on your device so the site remembers them. This is not used to track you.",
+            analyticsTitle: "Analytics",
+            analyticsText: "I use Simple Analytics, a privacy-first service that uses no cookies and collects no personal data. It only provides anonymous, aggregated visit statistics.",
+            thirdPartyTitle: "Third-party services",
+            thirdPartyText: "The site is hosted on Netlify, which keeps standard server logs. The donation button is provided by Ko-fi; if you choose to donate, your payment is handled by Ko-fi and its payment providers (Stripe or PayPal) under their own privacy policies. The font is served from this site, not from Google.",
+            contactTitle: "Contact",
+            contactText: "Questions about privacy? You can reach me through my personal page:",
+            updated: "Last updated: June 2026",
+        },
     },
     sl: {
         appName: "Kalkulator starševskega dopusta",
@@ -100,6 +116,7 @@ const messages = {
         menu: {
             calculator: "Kalkulator",
             about: "O aplikaciji",
+            privacy: "Zasebnost",
         },
         a11y: {
             languageSelector: "Izberite jezik",
@@ -184,6 +201,21 @@ const messages = {
             supportText:
                 "Ta kalkulator je brezplačen in brez oglasov. Če ti je prihranil čas, mi lahko privoščiš kavo.",
             personalPageButton: "Obišči mojo osebno stran",
+        },
+        privacy: {
+            title: "Zasebnost",
+            intro: "Ta stran pojasnjuje, kako spletišče ravna z vašimi podatki. Na kratko: o vas ne zbira osebnih podatkov.",
+            dataTitle: "Brez osebnih podatkov",
+            dataText: "Kalkulator deluje v celoti v vašem brskalniku. Datumi in podatki, ki jih vnesete, se uporabijo le za prikaz rezultatov ter se nikoli ne pošljejo na strežnik ali shranijo.",
+            storageTitle: "Lokalna shramba",
+            storageText: "Izbrani jezik in nekaj nastavitev vmesnika se shranijo lokalno na vaši napravi, da si jih spletišče zapomni. To se ne uporablja za sledenje.",
+            analyticsTitle: "Analitika",
+            analyticsText: "Uporabljam Simple Analytics, storitev, ki spoštuje zasebnost, ne uporablja piškotkov in ne zbira osebnih podatkov. Ponuja le anonimno, združeno statistiko obiskov.",
+            thirdPartyTitle: "Storitve tretjih oseb",
+            thirdPartyText: "Spletišče gostuje pri Netlify, ki vodi običajne dnevnike strežnika. Gumb za donacije zagotavlja Ko-fi; če se odločite za donacijo, vaše plačilo obdela Ko-fi s svojimi ponudniki plačil (Stripe ali PayPal) v skladu z njihovimi pravilniki o zasebnosti. Pisava se streže s tega spletišča, ne od Googla.",
+            contactTitle: "Kontakt",
+            contactText: "Vprašanja o zasebnosti? Pišete mi lahko prek moje osebne strani:",
+            updated: "Zadnja posodobitev: junij 2026",
         },
     },
 };

@@ -67,6 +67,9 @@
         <div class="donate-widget">
           <KofiButton />
         </div>
+        <router-link to="/privacy" class="sidebar-foot__link">
+          {{ $t("menu.privacy") }}
+        </router-link>
         <a
           class="sidebar-copyright"
           href="https://nejcbevk.netlify.app"
@@ -91,6 +94,13 @@
           :aria-label="$t('a11y.languageSelector')"
         />
         <KofiButton />
+        <router-link
+          to="/privacy"
+          class="mobile-menu__privacy"
+          @click="hideMenu"
+        >
+          {{ $t("menu.privacy") }}
+        </router-link>
       </div>
     </PrimePopover>
   </aside>
@@ -183,6 +193,9 @@ export default {
     toggleMobileMenu(event) {
       this.$refs.menu?.toggle(event);
     },
+    hideMenu() {
+      this.$refs.menu?.hide();
+    },
     goAndClose(path) {
       if (this.$route.path !== path) this.$router.push(path);
       this.$refs.menu?.hide();
@@ -257,6 +270,17 @@ export default {
 
 .mobile-menu__lang {
   width: 100%;
+}
+
+.mobile-menu__privacy {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--p-text-muted-color);
+  text-decoration: none;
+}
+
+.mobile-menu__privacy:hover {
+  color: var(--p-primary-color);
 }
 
 /* ===== Desktop: vertical sidebar pinned to the left ===== */
@@ -373,6 +397,17 @@ export default {
     text-decoration: underline;
   }
 
+  .sidebar-foot__link {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--p-text-muted-color);
+    text-decoration: none;
+  }
+
+  .sidebar-foot__link:hover {
+    color: var(--p-primary-color);
+  }
+
   /* Collapsed rail: icons only. */
   .sidebar--collapsed {
     width: 76px;
@@ -390,6 +425,7 @@ export default {
 
   .sidebar--collapsed .brand-title,
   .sidebar--collapsed .lang-switcher,
+  .sidebar--collapsed .sidebar-foot__link,
   .sidebar--collapsed .sidebar-copyright {
     display: none;
   }
