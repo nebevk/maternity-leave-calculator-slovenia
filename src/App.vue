@@ -1,23 +1,26 @@
 <template>
-  <div id="app">
+  <div id="app" class="app-shell">
     <AppNavbar />
     <PrimeToast />
-    <main class="app-main">
-      <router-view />
-    </main>
-    <AppFooter />
+    <div class="app-body">
+      <main class="app-main">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
 import AppNavbar from "./components/Navbar.vue";
-import AppFooter from "./components/Footer.vue";
 
 export default {
   name: "App",
   components: {
     AppNavbar,
-    AppFooter,
   },
   watch: {
     "$i18n.locale": {
@@ -51,11 +54,35 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+/* Mobile-first: everything stacks vertically (sidebar becomes a top bar). */
+.app-shell {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .app-main {
   flex: 1 0 auto;
+}
+
+/* Desktop: sidebar on the left, content fills the rest. */
+@media (min-width: 1024px) {
+  .app-shell {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .app-body {
+    min-height: 100vh;
+  }
 }
 </style>

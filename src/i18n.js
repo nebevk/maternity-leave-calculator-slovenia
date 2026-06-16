@@ -4,13 +4,13 @@ import { createI18n } from "vue-i18n";
 const messages = {
     en: {
         appName: "Maternity Leave Calculator",
-        inDevelopment: "In development",
         menu: {
             calculator: "Calculator",
             about: "About",
         },
         a11y: {
             languageSelector: "Select language",
+            toggleSidebar: "Toggle navigation",
         },
         footer: "© {year} By Nejc Bevk",
         calculator: {
@@ -37,11 +37,13 @@ const messages = {
             parentalLeave: "Parental leave",
             days: "days",
             calculate: "Calculate",
+            reset: "Reset",
             results: "Results",
+            resultsPlaceholder: "Fill in the form and click Calculate to see your leave dates and timeline.",
             errorTitle: "Error",
             errorEDD: "Please select an expected due date.",
             errorBirthAfterEDD: "Birth date cannot be more than 4 weeks after the expected due date.",
-            disclaimer: "This calculator provides estimates based on current Slovenian regulations (ZSDP-1, for children born after 1 April 2023). It is not legal advice — always confirm with your Centre for Social Work (CSD) or official government sources.",
+            disclaimer: "This calculator provides estimates based on current Slovenian regulations (ZSDP-1, for children born after 1 April 2023). It is not legal advice. Always confirm with your Centre for Social Work (CSD) or official government sources.",
             maternityInfo: "Maternity leave: 105 days, starts 28 days before EDD or on birth date if earlier. Dates shown are the first and last day of leave.",
             maternityStart: "Maternity leave start",
             maternityEnd: "Maternity leave end",
@@ -88,13 +90,13 @@ const messages = {
     },
     sl: {
         appName: "Kalkulator starševskega dopusta",
-        inDevelopment: "V razvoju",
         menu: {
             calculator: "Kalkulator",
             about: "O aplikaciji",
         },
         a11y: {
             languageSelector: "Izberite jezik",
+            toggleSidebar: "Preklopi navigacijo",
         },
         footer: "© {year} Nejc Bevk",
         calculator: {
@@ -121,11 +123,13 @@ const messages = {
             parentalLeave: "Starševski dopust",
             days: "dni",
             calculate: "Izračunaj",
+            reset: "Ponastavi",
             results: "Rezultati",
+            resultsPlaceholder: "Izpolnite obrazec in kliknite Izračunaj za prikaz datumov in časovnice dopusta.",
             errorTitle: "Napaka",
             errorEDD: "Izberite predviden datum poroda.",
             errorBirthAfterEDD: "Datum rojstva ne sme biti več kot 4 tedne po predvidenem datumu poroda.",
-            disclaimer: "Kalkulator podaja oceno na podlagi veljavnih slovenskih predpisov (ZSDP-1, za otroke rojene po 1. aprilu 2023). Ni pravni nasvet — vedno preverite pri svojem centru za socialno delo (CSD) ali uradnih virih.",
+            disclaimer: "Kalkulator podaja oceno na podlagi veljavnih slovenskih predpisov (ZSDP-1, za otroke rojene po 1. aprilu 2023). Ni pravni nasvet. Vedno preverite pri svojem centru za socialno delo (CSD) ali uradnih virih.",
             maternityInfo: "Materinski dopust: 105 dni, začne se 28 dni pred PDP ali na dan rojstva, če je prej. Prikazana datuma sta prvi in zadnji dan dopusta.",
             maternityStart: "Začetek materinskega dopusta",
             maternityEnd: "Konec materinskega dopusta",

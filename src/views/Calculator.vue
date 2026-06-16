@@ -17,7 +17,14 @@ export default {
 
 <style scoped>
 .calculator {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem 2rem;
+}
+
+@media (max-width: 640px) {
+  .calculator {
+    padding: 1rem;
+  }
 }
 </style>

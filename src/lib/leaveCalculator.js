@@ -1,11 +1,11 @@
 // Slovenian parental-leave calculation logic (ZSDP-1, post-1-April-2023 regime).
-// Pure functions only — no Vue, no i18n, no date formatting — so the rules can be
+// Pure functions only - no Vue, no i18n, no date formatting - so the rules can be
 // unit-tested in isolation. The caller is responsible for formatting dates and for
 // translating the i18n keys returned in `extensions` and `timeline`.
 
 export const MATERNITY_DAYS = 105; // ZSDP-1 Art. 19(1)
 export const MATERNITY_LEAD_DAYS = 28; // prescribed start: EDD - 28 (Art. 21)
-export const MATERNITY_MANDATORY_DAYS = 15; // Art. 19(2) — informational
+export const MATERNITY_MANDATORY_DAYS = 15; // Art. 19(2) - informational
 
 export const PATERNITY_BASE_DAYS = 15; // Art. 25(1)
 export const PATERNITY_PER_EXTRA_NEWBORN = 10; // Art. 25(2): +10 per additional child
@@ -15,7 +15,7 @@ export const PARENTAL_PER_PARENT_CAP = 260; // 160 own + 100 transferred
 export const PARENTAL_PER_PARENT_MIN = PARENTAL_TOTAL - PARENTAL_PER_PARENT_CAP; // 60 non-transferable
 export const PARENTAL_DEFAULT = PARENTAL_TOTAL / 2; // 160
 
-// Extensions to PARENTAL leave (ZSDP-1 Art. 29) — cumulative ("se seštevajo").
+// Extensions to PARENTAL leave (ZSDP-1 Art. 29) - cumulative ("se seštevajo").
 export const EXT_SPECIAL_NEEDS_DAYS = 90;
 export const EXT_MULTIPLE_PER_EXTRA_CHILD_DAYS = 90; // per additional child (twins +90, triplets +180…)
 
@@ -73,7 +73,7 @@ export function calculateLeave({
   const paternityLeave =
     PATERNITY_BASE_DAYS + extraNewborns * PATERNITY_PER_EXTRA_NEWBORN;
 
-  // ----- Parental-leave extensions (Art. 29) — these add to the parental entitlement.
+  // ----- Parental-leave extensions (Art. 29) - these add to the parental entitlement.
   const extensions = [];
   let extensionDays = 0;
 
@@ -104,7 +104,7 @@ export function calculateLeave({
     }
   }
 
-  // "More children under 8" tier — counts only children the parents ALREADY raise
+  // "More children under 8" tier - counts only children the parents ALREADY raise
   // at the time of this birth; the newborn(s) are NOT counted (Art. 29).
   let kidsExtensionDays = 0;
   let kidsKey = null;
