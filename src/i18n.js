@@ -4,6 +4,7 @@ import { createI18n } from "vue-i18n";
 const messages = {
     en: {
         appName: "Maternity Leave Calculator",
+        donate: "Buy me a coffee",
         menu: {
             calculator: "Calculator",
             about: "About",
@@ -90,6 +91,7 @@ const messages = {
     },
     sl: {
         appName: "Kalkulator starševskega dopusta",
+        donate: "Kupi mi kavo",
         menu: {
             calculator: "Kalkulator",
             about: "O aplikaciji",

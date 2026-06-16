@@ -50,14 +50,23 @@
       </PrimeMenu>
     </nav>
 
-    <a
-      class="sidebar-copyright"
-      href="https://nejcbevk.netlify.app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {{ $t("footer", { year }) }}
-    </a>
+    <div class="sidebar-foot">
+      <PrimeButton
+        class="donate-button"
+        icon="pi pi-heart"
+        :label="$t('donate')"
+        :aria-label="$t('donate')"
+        @click="openDonate"
+      />
+      <a
+        class="sidebar-copyright"
+        href="https://nejcbevk.netlify.app"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ $t("footer", { year }) }}
+      </a>
+    </div>
   </aside>
 </template>
 
@@ -65,6 +74,8 @@
 import { LOCALE_STORAGE_KEY } from "../i18n";
 
 const COLLAPSE_KEY = "mlc.sidebarCollapsed";
+
+const KOFI_URL = "https://ko-fi.com/nejcbevk";
 
 export default {
   name: "AppNavbar",
@@ -111,6 +122,11 @@ export default {
     },
   },
   methods: {
+    openDonate() {
+      if (typeof window !== "undefined") {
+        window.open(KOFI_URL, "_blank", "noopener");
+      }
+    },
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
       if (typeof window !== "undefined") {
@@ -226,6 +242,19 @@ export default {
   font-size: 1rem;
 }
 
+.sidebar-foot {
+  order: 4;
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.donate-button {
+  flex: 0 0 auto;
+}
+
 .sidebar-copyright {
   display: none;
   margin: 0;
@@ -300,11 +329,22 @@ export default {
     justify-content: flex-start;
   }
 
-  .sidebar-copyright {
+  .sidebar-foot {
     order: 0;
+    margin-top: auto;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .donate-button {
+    width: 100%;
+  }
+
+  .sidebar-copyright {
     display: block;
     text-align: center;
-    margin-top: auto;
   }
 
   /* Collapsed rail: icons only. */
@@ -333,6 +373,10 @@ export default {
   }
 
   .sidebar--collapsed .sidebar-menu__label {
+    display: none;
+  }
+
+  .sidebar--collapsed .donate-button :deep(.p-button-label) {
     display: none;
   }
 }
