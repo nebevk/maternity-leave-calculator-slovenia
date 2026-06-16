@@ -87,6 +87,10 @@ const messages = {
                 "This page will provide sources and explanations for the maternity leave calculations used in this application.",
             explanationText:
                 "The calculator uses the latest Slovenian regulations to estimate the duration and breakdown of maternity, paternity, and mixed parental leave. Please consult official resources for the most up-to-date information.",
+            support: "Support this project",
+            supportText:
+                "This calculator is free and ad-free. If it saved you time, you can buy me a coffee.",
+            personalPageText: "You can also check out my personal page:",
         },
     },
     sl: {
@@ -174,6 +178,10 @@ const messages = {
                 "Ta stran vsebuje vire in pojasnila za izračune starševskega dopusta v tej aplikaciji.",
             explanationText:
                 "Kalkulator uporablja najnovejše slovenske predpise za oceno trajanja in razdelitve materinskega, očetovskega in skupnega starševskega dopusta. Za najbolj ažurne informacije preverite uradne vire.",
+            support: "Podprite projekt",
+            supportText:
+                "Ta kalkulator je brezplačen in brez oglasov. Če ti je prihranil čas, mi lahko privoščiš kavo.",
+            personalPageText: "Lahko si ogledaš tudi mojo osebno stran:",
         },
     },
 };

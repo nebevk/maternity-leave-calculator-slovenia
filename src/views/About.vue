@@ -10,12 +10,31 @@
     </ul>
     <h3>{{ $t("about.explanation") }}</h3>
     <p>{{ $t("about.explanationText") }}</p>
+
+    <h3>{{ $t("about.support") }}</h3>
+    <p>{{ $t("about.supportText") }}</p>
+    <KofiButton class="about-kofi" />
+    <p class="about-personal">
+      {{ $t("about.personalPageText") }}
+      <a
+        href="https://nejcbevk.netlify.app"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        nejcbevk.netlify.app
+      </a>
+    </p>
   </div>
 </template>
 
 <script>
+import KofiButton from "../components/KofiButton.vue";
+
 export default {
   name: "AboutPage",
+  components: {
+    KofiButton,
+  },
 };
 </script>
 
@@ -39,5 +58,16 @@ export default {
 }
 .about ul {
   margin-left: 1.5rem;
+}
+.about-kofi {
+  justify-content: flex-start;
+  margin: 1rem 0;
+}
+.about-personal {
+  color: var(--p-text-muted-color);
+}
+.about-personal a {
+  color: var(--p-primary-color);
+  font-weight: 600;
 }
 </style>

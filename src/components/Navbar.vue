@@ -51,8 +51,9 @@
     </nav>
 
     <div class="sidebar-foot">
-      <!-- Ko-fi official widget button; label set from i18n in renderKofiButton(). -->
-      <div class="donate-widget" v-html="kofiHtml"></div>
+      <div class="donate-widget">
+        <KofiButton />
+      </div>
       <a
         class="sidebar-copyright"
         href="https://nejcbevk.netlify.app"
@@ -67,23 +68,21 @@
 
 <script>
 import { LOCALE_STORAGE_KEY } from "../i18n";
+import KofiButton from "./KofiButton.vue";
 
 const COLLAPSE_KEY = "mlc.sidebarCollapsed";
 
-// Ko-fi official widget (kofiwidget2). The ID maps to the ko-fi.com/nejcbevk page.
-const KOFI_WIDGET_ID = "M1X421IBSF";
-const KOFI_COLOR = "#bf7fff";
-const KOFI_SCRIPT = "https://storage.ko-fi.com/cdn/widget/Widget_2.js";
-
 export default {
   name: "AppNavbar",
+  components: {
+    KofiButton,
+  },
   data() {
     return {
       collapsed:
         (typeof window !== "undefined" &&
           window.localStorage?.getItem(COLLAPSE_KEY) === "1") ||
         false,
-      kofiHtml: "",
       localeOptions: [
         { label: "Slovenščina", value: "sl" },
         { label: "English", value: "en" },
@@ -120,40 +119,7 @@ export default {
       },
     },
   },
-  mounted() {
-    this.loadKofiWidget();
-  },
-  watch: {
-    "$i18n.locale"() {
-      // Re-render so the button label follows the active language.
-      this.renderKofiButton();
-    },
-  },
   methods: {
-    renderKofiButton() {
-      const kofi = typeof window !== "undefined" && window.kofiwidget2;
-      if (!kofi) return;
-      kofi.init(this.$t("donate"), KOFI_COLOR, KOFI_WIDGET_ID);
-      this.kofiHtml = kofi.getHTML();
-    },
-    loadKofiWidget() {
-      if (typeof window === "undefined" || typeof document === "undefined") {
-        return;
-      }
-      if (window.kofiwidget2) {
-        this.renderKofiButton();
-        return;
-      }
-      let script = document.getElementById("kofi-widget-script");
-      if (!script) {
-        script = document.createElement("script");
-        script.id = "kofi-widget-script";
-        script.src = KOFI_SCRIPT;
-        script.async = true;
-        document.head.appendChild(script);
-      }
-      script.addEventListener("load", () => this.renderKofiButton());
-    },
     toggleCollapsed() {
       this.collapsed = !this.collapsed;
       if (typeof window !== "undefined") {
@@ -282,10 +248,6 @@ export default {
   flex: 0 0 auto;
   display: flex;
   justify-content: center;
-}
-
-.donate-widget :deep(a) {
-  border: 2px solid #ec4899 !important;
 }
 
 .sidebar-copyright {
