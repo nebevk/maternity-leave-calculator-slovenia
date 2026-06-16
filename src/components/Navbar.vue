@@ -253,6 +253,7 @@ export default {
 
 .donate-button {
   flex: 0 0 auto;
+  border: 2px solid #ec4899 !important;
 }
 
 .sidebar-copyright {
